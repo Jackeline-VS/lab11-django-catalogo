@@ -1,0 +1,12 @@
+{% extends 'catalogo/base.html' %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block contenido %}
+<div class="p-5 bg-light rounded-3 text-center">
+    <h1 class="display-5">Bienvenida a TechStore</h1>
+    <p class="lead">Catálogo de productos electrónicos construido con Django (MTV).</p>
+    <p>Productos registrados: <strong>{{ total }}</strong> · Agotados: <strong>{{ agotados }}</strong></p>
+    <a href="{% url 'catalogo:lista' %}" class="btn btn-primary btn-lg">Ver catálogo</a>
+</div>
+{% endblock %}

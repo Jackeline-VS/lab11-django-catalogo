@@ -1,0 +1,47 @@
+{% extends 'catalogo/base.html' %}
+
+{% block titulo %}Catálogo{% endblock %}
+
+{% block contenido %}
+<h2 class="mb-3">Catálogo de productos</h2>
+
+<div class="mb-4">
+    {% if categoria_actual %}
+        <a href="{% url 'catalogo:lista' %}" class="btn btn-sm btn-outline-dark">Todos</a>
+    {% else %}
+        <a href="{% url 'catalogo:lista' %}" class="btn btn-sm btn-dark">Todos</a>
+    {% endif %}
+
+    {% for valor, etiqueta in categorias %}
+        {% if categoria_actual == valor %}
+            <a href="?categoria={{ valor }}" class="btn btn-sm btn-dark">{{ etiqueta }}</a>
+        {% else %}
+            <a href="?categoria={{ valor }}" class="btn btn-sm btn-outline-dark">{{ etiqueta }}</a>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="row g-3">
+    {% for producto in productos %}
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ producto.nombre|title }}</h5>
+                <p class="text-muted mb-1">{{ producto.get_categoria_display }}</p>
+                <p class="fs-4 fw-bold">S/ {{ producto.precio }}</p>
+                {% if producto.stock > 0 %}
+                    <span class="badge bg-success">Stock: {{ producto.stock }}</span>
+                {% else %}
+                    <span class="badge bg-danger">Agotado</span>
+                {% endif %}
+            </div>
+            <div class="card-footer small text-muted">
+                Registrado: {{ producto.fecha_registro|date:"d/m/Y H:i" }}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p>No hay productos en esta categoría.</p>
+    {% endfor %}
+</div>
+{% endblock %}
